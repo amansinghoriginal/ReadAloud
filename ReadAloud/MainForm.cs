@@ -42,17 +42,38 @@ namespace Read_Aloud
         {
             if (e.KeyData == Keys.Space && e.Ctrl)
             {
-                //TODO Enqueue Message (Start)
+                Enqueue();
                 e.Handled = true;
             }
             else if(e.KeyData == Keys.P && e.Ctrl && e.Alt)
             {
-                //TODO Pause/Resume
+                PauseResume();
+                e.Handled = true;
             }
             else if(e.KeyData == Keys.X && e.Ctrl && e.Alt)
             {
-                //TODO Stop
+                Stop();
+                e.Handled = true;
+            }
+            else if(e.KeyData == Keys.C && e.Ctrl && e.Alt)
+            {
+                Clear();
+                e.Handled = true;
             }
         }
+
+        private void PauseResume()
+        { }
+
+        private void Stop()
+        { }
+
+        private void Enqueue()
+        {
+            ClipboardManager.Instance.GetHighlightedText();
+        }
+
+        private void Clear()
+        { }
     }
 }
