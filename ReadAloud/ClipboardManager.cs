@@ -30,6 +30,7 @@ namespace Read_Aloud
 {
     class ClipboardManager : Control
     {
+        #region INTERNALS
         #region SINGLETON_CODE
         private static ClipboardManager instance = new ClipboardManager();
         public static ClipboardManager Instance
@@ -83,8 +84,7 @@ namespace Read_Aloud
             intercept = false;
             string text = Clipboard.GetText();
             restoreCurrentContent();
-
-            //TODO Enqueue Text
+            MainForm.Instance.Enqueue(text);
         }
         #endregion
 
@@ -159,6 +159,7 @@ namespace Read_Aloud
                     throw new InvalidOperationException("Invalid value for enum");
             }
         }
+        #endregion
         #endregion
 
         /// <summary>

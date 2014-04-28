@@ -80,6 +80,10 @@ namespace HookManager
                         System.Runtime.InteropServices.Marshal.GetLastWin32Error();
                     throw new System.ComponentModel.Win32Exception(errorCode);
                 }
+                else
+                {
+                    hhook = IntPtr.Zero;
+                }
             }
         }
 
@@ -105,6 +109,5 @@ namespace HookManager
             }
             return WinAPI.CallNextHookEx(hhook, nCode, wParam, ref lParam);
         }
-
     }
 }

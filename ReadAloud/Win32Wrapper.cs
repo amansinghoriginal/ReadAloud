@@ -57,5 +57,17 @@ namespace Read_Aloud
         [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall,
             SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool ChangeClipboardChain(IntPtr Remove, IntPtr NewNext);
+
+        [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall,
+            SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall,
+            SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr GetDesktopWindow();
+
+        [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall,
+            SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr SetFocus(IntPtr hWnd);
     }
 }

@@ -21,7 +21,6 @@
 
 using System;
 using System.Windows.Forms;
-using System.Speech.Synthesis;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -29,13 +28,47 @@ namespace Read_Aloud
 {
     partial class MainForm : Form
     {
-        HookManager.HookManager hookManager = new HookManager.HookManager();
+        public static MainForm Instance { get { return instance; } }
 
-        public MainForm()
+        #region INTERNALS
+        private static MainForm instance = new MainForm();
+
+        private MainForm()
         {
             InitializeComponent();
+            InitializeTrayIcon();
+
+            speechManager = new SpeechManager.SpeechManager(true, true);
+            speechManager.EnqueueButtonClick += speechManager_EnqueueButtonClick;
 
             hookManager.KeyDown += hookManager_KeyDown;
+        }
+        
+        HookManager.HookManager hookManager = new HookManager.HookManager();
+        private SpeechManager.SpeechManager speechManager;
+
+        private void InitializeTrayIcon()
+        {
+            ContextMenuStrip ctxmenu = new ContextMenuStrip();
+
+            ToolStripMenuItem exit = new ToolStripMenuItem("E&xit");
+            exit.Click += exit_Click;
+
+            ctxmenu.Items.Add(exit);
+            notifyIcon1.ContextMenuStrip = ctxmenu;
+        }
+
+        private void exit_Click(object sender, EventArgs e)
+        {
+            notifyIcon1.Visible = false;
+            speechManager.Stop();
+            speechManager.Dispose();
+            Application.Exit();
+        }
+
+        private void speechManager_EnqueueButtonClick(object sender, EventArgs e)
+        {
+            ClipboardManager.Instance.GetHighlightedText();
         }
 
         private void hookManager_KeyDown(object sender, HookManager.KeyArgs e)
@@ -55,25 +88,30 @@ namespace Read_Aloud
                 Stop();
                 e.Handled = true;
             }
-            else if(e.KeyData == Keys.C && e.Ctrl && e.Alt)
-            {
-                Clear();
-                e.Handled = true;
-            }
         }
 
         private void PauseResume()
-        { }
+        {
+            if (speechManager.CurrentState == SpeechManager.SpeechManager.State.Playing)
+                speechManager.Pause();
+            else
+                speechManager.Play();
+        }
 
         private void Stop()
-        { }
+        {
+            speechManager.Stop();
+        }
 
         private void Enqueue()
         {
             ClipboardManager.Instance.GetHighlightedText();
         }
+        #endregion
 
-        private void Clear()
-        { }
+        public void Enqueue(string message)
+        {
+            speechManager.Enqueue(message);
+        }
     }
 }

@@ -20,22 +20,17 @@
 //  DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Read_Aloud
+namespace SpeechManager
 {
-    static class Program
+    public class MessageEnqueuedArgs : EventArgs
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            MainForm.Instance.Enqueue("");
-            Application.Run();
-        }
+        public string Message { get; private set; }
+        public MessageEnqueuedArgs(string message)
+        { this.Message = message; }
     }
 }

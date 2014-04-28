@@ -37,7 +37,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Speech" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,6 +88,10 @@
     <ProjectReference Include="..\HookManager\HookManager.csproj">
       <Project>{efe2b1de-94cb-49ee-a455-744e78cea863}</Project>
       <Name>HookManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SpeechManager\SpeechManager.csproj">
+      <Project>{6a0c11b2-f620-412e-ac6e-1de83c4f9242}</Project>
+      <Name>SpeechManager</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
