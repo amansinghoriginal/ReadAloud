@@ -130,6 +130,7 @@ namespace SpeechManager
                 mediaControls.PlayButton.Click += PlayButton_Click;
                 mediaControls.PauseButton.Click += PauseButton_Click;
                 mediaControls.StopButton.Click += StopButton_Click;
+                mediaControls.HomeButton.Click += HomeButton_Click;
                 mediaControls.Show();
             }
         }
@@ -149,6 +150,8 @@ namespace SpeechManager
         public event EventHandler<EventArgs> EnqueueButtonClick = delegate { };
 
         public event EventHandler<MessageEnqueuedArgs> MessageEnqueued = delegate { };
+
+        public event EventHandler<EventArgs> HomeButtonClick = delegate { };
 
         #region INTERNALS
         public void Dispose()
@@ -265,6 +268,10 @@ namespace SpeechManager
         private void StopButton_Click(object sender, EventArgs e)
         {
             Stop();
+        }
+        private void HomeButton_Click(object sender, EventArgs e)
+        {
+            HomeButtonClick(sender, e);
         }
         #endregion
 

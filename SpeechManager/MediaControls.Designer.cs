@@ -55,6 +55,7 @@ namespace SpeechManager
             this.PlayButton = new System.Windows.Forms.ToolStripButton();
             this.PauseButton = new System.Windows.Forms.ToolStripButton();
             this.StopButton = new System.Windows.Forms.ToolStripButton();
+            this.HomeButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,13 +70,14 @@ namespace SpeechManager
             this.EnqueueButton,
             this.PlayButton,
             this.PauseButton,
-            this.StopButton});
+            this.StopButton,
+            this.HomeButton});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Padding = new System.Windows.Forms.Padding(0);
             this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip.Size = new System.Drawing.Size(70, 213);
+            this.toolStrip.Size = new System.Drawing.Size(70, 284);
             this.toolStrip.Stretch = true;
             this.toolStrip.TabIndex = 2;
             this.toolStrip.Text = "toolStrip";
@@ -112,7 +114,7 @@ namespace SpeechManager
             this.PauseButton.Image = ((System.Drawing.Image)(resources.GetObject("PauseButton.Image")));
             this.PauseButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.PauseButton.Name = "PauseButton";
-            this.PauseButton.Size = new System.Drawing.Size(68, 68);
+            this.PauseButton.Size = new System.Drawing.Size(69, 68);
             this.PauseButton.Text = "Pause";
             this.PauseButton.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             this.PauseButton.MouseLeave += new System.EventHandler(this.toolStrip_MouseLeave);
@@ -123,24 +125,35 @@ namespace SpeechManager
             this.StopButton.Image = ((System.Drawing.Image)(resources.GetObject("StopButton.Image")));
             this.StopButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(68, 68);
+            this.StopButton.Size = new System.Drawing.Size(69, 68);
             this.StopButton.Text = "Stop";
             this.StopButton.ToolTipText = "Stop";
             this.StopButton.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             this.StopButton.MouseLeave += new System.EventHandler(this.toolStrip_MouseLeave);
             // 
+            // HomeButton
+            // 
+            this.HomeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.HomeButton.Image = ((System.Drawing.Image)(resources.GetObject("HomeButton.Image")));
+            this.HomeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.HomeButton.Name = "HomeButton";
+            this.HomeButton.Size = new System.Drawing.Size(68, 68);
+            this.HomeButton.Text = "Home";
+            this.HomeButton.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this.HomeButton.MouseLeave += new System.EventHandler(this.toolStrip_MouseLeave);
+            // 
             // MediaControls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(70, 213);
+            this.ClientSize = new System.Drawing.Size(70, 284);
             this.ControlBox = false;
             this.Controls.Add(this.toolStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(70, 213);
+            this.MaximumSize = new System.Drawing.Size(70, 284);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(70, 213);
+            this.MinimumSize = new System.Drawing.Size(70, 284);
             this.Name = "MediaControls";
             this.Opacity = 0.1D;
             this.ShowIcon = false;
@@ -162,6 +175,7 @@ namespace SpeechManager
         private System.Windows.Forms.ToolStrip toolStrip;
         public System.Windows.Forms.ToolStripButton StopButton;
         public System.Windows.Forms.ToolStripButton EnqueueButton;
+        public System.Windows.Forms.ToolStripButton HomeButton;
 
 
     }

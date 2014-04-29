@@ -40,6 +40,7 @@ namespace Read_Aloud
 
             speechManager = new SpeechManager.SpeechManager(true, true);
             speechManager.EnqueueButtonClick += speechManager_EnqueueButtonClick;
+            speechManager.HomeButtonClick += speechManager_HomeButtonClick;
 
             hookManager.KeyDown += hookManager_KeyDown;
         }
@@ -51,11 +52,33 @@ namespace Read_Aloud
         {
             ContextMenuStrip ctxmenu = new ContextMenuStrip();
 
-            ToolStripMenuItem exit = new ToolStripMenuItem("E&xit");
-            exit.Click += exit_Click;
+            ToolStripMenuItem home = new ToolStripMenuItem("&Home", null, home_Click);
+            ToolStripMenuItem enqueue = new ToolStripMenuItem("&Enqueue", null, enqueue_click);
+            ToolStripMenuItem playpause = new ToolStripMenuItem("&Play/Pause", null, playpause_Click);
+            ToolStripMenuItem stop = new ToolStripMenuItem("&Stop", null, stop_Click);
+            ToolStripMenuItem exit = new ToolStripMenuItem("E&xit", null, exit_Click);
 
-            ctxmenu.Items.Add(exit);
+            ctxmenu.Items.AddRange(new[] { home, enqueue, playpause, stop, exit });
             notifyIcon1.ContextMenuStrip = ctxmenu;
+        }
+
+        private void home_Click(object sender, EventArgs e)
+        {
+            
+        }
+        private void enqueue_click(object sender, EventArgs e)
+        {
+            Enqueue();
+        }
+
+        private void stop_Click(object sender, EventArgs e)
+        {
+            Stop();
+        }
+
+        private void playpause_Click(object sender, EventArgs e)
+        {
+            PauseResume();
         }
 
         private void exit_Click(object sender, EventArgs e)
@@ -69,6 +92,11 @@ namespace Read_Aloud
         private void speechManager_EnqueueButtonClick(object sender, EventArgs e)
         {
             ClipboardManager.Instance.GetHighlightedText();
+        }
+
+        private void speechManager_HomeButtonClick(object sender, EventArgs e)
+        {
+            //TODO
         }
 
         private void hookManager_KeyDown(object sender, HookManager.KeyArgs e)
