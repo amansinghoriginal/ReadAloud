@@ -143,8 +143,15 @@ namespace SpeechManager
                 mediaControls.PlayButton.Click -= PlayButton_Click;
                 mediaControls.PauseButton.Click -= PauseButton_Click;
                 mediaControls.StopButton.Click -= StopButton_Click;
+                mediaControls.HomeButton.Click -= HomeButton_Click;
                 mediaControls.Hide();
             }
+        }
+
+        public void SelectVoice(VoiceInfo info)
+        {
+            Stop();
+            synthesizer.SelectVoice(info.Name);
         }
 
         public event EventHandler<EventArgs> EnqueueButtonClick = delegate { };
