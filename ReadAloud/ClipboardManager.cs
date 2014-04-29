@@ -84,7 +84,7 @@ namespace Read_Aloud
             intercept = false;
             string text = Clipboard.GetText();
             restoreCurrentContent();
-            MainForm.Instance.Enqueue(text);
+            MainForm.Instance.Enqueue(TextManager.Instance.Process(text));
         }
         #endregion
 
