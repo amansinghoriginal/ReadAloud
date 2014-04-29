@@ -103,9 +103,7 @@ namespace SpeechManager
                 messageQueue.Clear();
 
             synthesizer.SpeakAsyncCancelAll();
-            play = false;
-            mediaControls.TogglePlayPause(true);
-            
+
             //Clear TextDisplay
             textDisplay.SetText("");
         }
