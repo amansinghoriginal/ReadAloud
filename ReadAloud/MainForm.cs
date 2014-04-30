@@ -40,33 +40,63 @@ namespace Read_Aloud
 
             speechManager = new SpeechManager.SpeechManager(true, true);
             speechManager.EnqueueButtonClick += speechManager_EnqueueButtonClick;
-            speechManager.HomeButtonClick += speechManager_HomeButtonClick;
+            speechManager.HomeAboutClick += speechManager_HomeAboutClick;
+            speechManager.HomeQuitClick += speechManager_HomeQuitClick;
+            speechManager.HomeStart += speechManager_HomeStart;
+            speechManager.HomeEnd += speechManager_HomeEnd;
 
             hookManager.KeyDown += hookManager_KeyDown;
         }
         
-        HookManager.HookManager hookManager = new HookManager.HookManager();
+        private HookManager.HookManager hookManager = new HookManager.HookManager();
         private SpeechManager.SpeechManager speechManager;
+        private ContextMenuStrip ctxmenu = new ContextMenuStrip();
+        private ToolStripMenuItem homeTSMenuItem;
+        private ToolStripMenuItem enqueueTSMenuItem;
+        private ToolStripMenuItem playpauseTSMenuItem;
+        private ToolStripMenuItem stopTSMenuItem;
+        private ToolStripMenuItem exitTSMenuItem;
 
         private void InitializeTrayIcon()
         {
-            ContextMenuStrip ctxmenu = new ContextMenuStrip();
+            homeTSMenuItem = new ToolStripMenuItem("&Home", null, home_Click);
+            enqueueTSMenuItem = new ToolStripMenuItem("&Enqueue", null, enqueue_Click);
+            playpauseTSMenuItem = new ToolStripMenuItem("&Play/Pause", null, playpause_Click);
+            stopTSMenuItem = new ToolStripMenuItem("&Stop", null, stop_Click);
+            exitTSMenuItem = new ToolStripMenuItem("E&xit", null, exit_Click);
+            ctxmenu.Items.AddRange(new[] { homeTSMenuItem, enqueueTSMenuItem,
+                playpauseTSMenuItem, stopTSMenuItem, exitTSMenuItem });
+            notifyIcon.ContextMenuStrip = ctxmenu;
+            notifyIcon.DoubleClick += notifyIcon_DoubleClick;
+        }
 
-            ToolStripMenuItem home = new ToolStripMenuItem("&Home", null, home_Click);
-            ToolStripMenuItem enqueue = new ToolStripMenuItem("&Enqueue", null, enqueue_click);
-            ToolStripMenuItem playpause = new ToolStripMenuItem("&Play/Pause", null, playpause_Click);
-            ToolStripMenuItem stop = new ToolStripMenuItem("&Stop", null, stop_Click);
-            ToolStripMenuItem exit = new ToolStripMenuItem("E&xit", null, exit_Click);
+        private void notifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+            speechManager.Home();
+        }
 
-            ctxmenu.Items.AddRange(new[] { home, enqueue, playpause, stop, exit });
-            notifyIcon1.ContextMenuStrip = ctxmenu;
+        private void speechManager_HomeEnd(object sender, EventArgs e)
+        {
+            homeTSMenuItem.Enabled = true;
+ 	        enqueueTSMenuItem.Enabled = true;
+            playpauseTSMenuItem.Enabled = true;
+            stopTSMenuItem.Enabled = true;
+        }
+
+        private void speechManager_HomeStart(object sender, EventArgs e)
+        {
+            homeTSMenuItem.Enabled = false;
+            enqueueTSMenuItem.Enabled = false;
+            playpauseTSMenuItem.Enabled = false;
+            stopTSMenuItem.Enabled = false;
         }
 
         private void home_Click(object sender, EventArgs e)
         {
-            
+            speechManager.Home();
         }
-        private void enqueue_click(object sender, EventArgs e)
+
+        private void enqueue_Click(object sender, EventArgs e)
         {
             Enqueue();
         }
@@ -83,10 +113,7 @@ namespace Read_Aloud
 
         private void exit_Click(object sender, EventArgs e)
         {
-            notifyIcon1.Visible = false;
-            speechManager.Stop();
-            speechManager.Dispose();
-            Application.Exit();
+            Exit();
         }
 
         private void speechManager_EnqueueButtonClick(object sender, EventArgs e)
@@ -94,9 +121,17 @@ namespace Read_Aloud
             ClipboardManager.Instance.GetHighlightedText();
         }
 
-        private void speechManager_HomeButtonClick(object sender, EventArgs e)
+        private AboutDialog aboutDialog = null;
+        private void speechManager_HomeAboutClick(object sender, EventArgs e)
         {
-            //TODO
+            if (aboutDialog == null)
+                aboutDialog = new AboutDialog();
+            aboutDialog.Show();
+        }
+
+        private void speechManager_HomeQuitClick(object sender, EventArgs e)
+        {
+            Exit();
         }
 
         private void hookManager_KeyDown(object sender, HookManager.KeyArgs e)
@@ -134,6 +169,14 @@ namespace Read_Aloud
         private void Enqueue()
         {
             ClipboardManager.Instance.GetHighlightedText();
+        }
+
+        private void Exit()
+        {
+            notifyIcon.Visible = false;
+            speechManager.Stop();
+            speechManager.Dispose();
+            Application.Exit();
         }
         #endregion
 

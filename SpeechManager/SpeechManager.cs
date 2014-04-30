@@ -41,6 +41,8 @@ namespace SpeechManager
 
         public SpeechManager()
         {
+            InitializeComponents();
+
             lock (dispatcherRunLock)
                 dispatcherRun = true;
             new Thread(() => Dispatcher()).Start();
@@ -108,6 +110,38 @@ namespace SpeechManager
             textDisplay.SetText("");
         }
 
+        public void Home()
+        {
+            HomeStart(this, EventArgs.Empty);
+            Stop();
+            //Load settings into Home Dialog
+            home.installedVoicesComboBox.Items.Clear();
+            foreach (var voice in synthesizer.GetInstalledVoices())
+                home.installedVoicesComboBox.Items.Add(voice.VoiceInfo);
+            home.installedVoicesComboBox.DisplayMember = "Description";
+            home.installedVoicesComboBox.SelectedIndex = 0;
+            home.showMediaControls.Checked = mediaControls.Visible;
+            home.showTextDisplay.Checked = textDisplay.Visible;
+            home.volumeTrackbar.Value = synthesizer.Volume;
+            home.rateTrackbar.Value = synthesizer.Rate;
+
+            if (home.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                synthesizer.SelectVoice(((VoiceInfo)home.installedVoicesComboBox.SelectedItem).Name);
+                synthesizer.Volume = home.volumeTrackbar.Value;
+                synthesizer.Rate = home.rateTrackbar.Value;
+                if (home.showTextDisplay.Checked)
+                    ShowTextDisplay();
+                else
+                    HideTextDisplay();
+                if (home.showMediaControls.Checked)
+                    ShowMediaControls();
+                else
+                    HideMediaControls();
+            }
+            HomeEnd(this, EventArgs.Empty);
+        }
+
         public void ShowTextDisplay()
         {
             if (!textDisplay.Visible)
@@ -146,25 +180,71 @@ namespace SpeechManager
             }
         }
 
-        public void SelectVoice(VoiceInfo info)
+        public void SelectVoice(VoiceInfo info, int rate, int volume)
         {
             Stop();
             synthesizer.SelectVoice(info.Name);
+            synthesizer.Rate = rate;
+            synthesizer.Volume = volume;
         }
 
         public event EventHandler<EventArgs> EnqueueButtonClick = delegate { };
 
         public event EventHandler<MessageEnqueuedArgs> MessageEnqueued = delegate { };
 
-        public event EventHandler<EventArgs> HomeButtonClick = delegate { };
-
-        #region INTERNALS
+        public event EventHandler<EventArgs> HomeQuitClick = delegate { };
+        public event EventHandler<EventArgs> HomeAboutClick = delegate { };
+        public event EventHandler<EventArgs> HomeStart = delegate { };
+        public event EventHandler<EventArgs> HomeEnd = delegate { };
+        
         public void Dispose()
         {
             producedEvent.Set();
             lock (dispatcherRunLock)
                 dispatcherRun = false;
         }
+
+        #region INTERNALS
+
+        #region HOME_DIALOG
+        private Home home = new Home();
+
+        private void InitializeComponents()
+        {
+            home.AboutClick += home_AboutClick;
+            home.QuitClick += home_QuitClick;
+            HomeStart += SpeechManager_HomeStart;
+            HomeEnd += SpeechManager_HomeEnd;
+        }
+
+        private void SpeechManager_HomeEnd(object sender, EventArgs e)
+        {
+            mediaControls.HomeButton.Enabled = true;
+            mediaControls.EnqueueButton.Enabled = true;
+            mediaControls.PlayButton.Enabled = true;
+            mediaControls.PauseButton.Enabled = true;
+            mediaControls.StopButton.Enabled = true;
+        }
+
+        private void SpeechManager_HomeStart(object sender, EventArgs e)
+        {
+            mediaControls.HomeButton.Enabled = false;
+            mediaControls.EnqueueButton.Enabled = false;
+            mediaControls.PlayButton.Enabled = false;
+            mediaControls.PauseButton.Enabled = false;
+            mediaControls.StopButton.Enabled = false;
+        }
+
+        void home_QuitClick(object sender, EventArgs e)
+        {
+            HomeQuitClick(sender, e);
+        }
+
+        void home_AboutClick(object sender, EventArgs e)
+        {
+            HomeAboutClick(sender, e);
+        }
+        #endregion
 
         private SpeechSynthesizer synthesizer = new SpeechSynthesizer();
 
@@ -276,7 +356,7 @@ namespace SpeechManager
         }
         private void HomeButton_Click(object sender, EventArgs e)
         {
-            HomeButtonClick(sender, e);
+            Home();
         }
         #endregion
 
