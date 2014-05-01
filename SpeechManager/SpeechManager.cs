@@ -39,8 +39,13 @@ namespace SpeechManager
         };
         public State CurrentState;
 
-        public SpeechManager()
+        public SpeechManager(string speechVoice, int speechRate, int speechVolume)
         {
+            this.SpeechVoice = speechVoice;
+            this.SpeechRate = speechRate;
+            this.SpeechVolume = speechVolume;
+            UpdateSynthesizer();
+
             InitializeComponents();
 
             lock (dispatcherRunLock)
@@ -48,8 +53,9 @@ namespace SpeechManager
             new Thread(() => Dispatcher()).Start();
         }
 
-        public SpeechManager(bool showControls, bool showDisplay)
-            : this()
+        public SpeechManager(string speechVoice, int speechRate, int speechVolume,
+            bool showControls, bool showDisplay)
+            : this(speechVoice, speechRate, speechVolume)
         {
             if (showControls)
                 ShowMediaControls();
@@ -110,26 +116,41 @@ namespace SpeechManager
             textDisplay.SetText("");
         }
 
+        public string SpeechVoice { get; private set; }
+        public int SpeechRate { get; private set; }
+        public int SpeechVolume { get; private set; }
+
         public void Home()
         {
             HomeStart(this, EventArgs.Empty);
             Stop();
             //Load settings into Home Dialog
             home.installedVoicesComboBox.Items.Clear();
+            VoiceInfo currentVoice = synthesizer.Voice;
             foreach (var voice in synthesizer.GetInstalledVoices())
                 home.installedVoicesComboBox.Items.Add(voice.VoiceInfo);
             home.installedVoicesComboBox.DisplayMember = "Description";
-            home.installedVoicesComboBox.SelectedIndex = 0;
-            home.showMediaControls.Checked = mediaControls.Visible;
-            home.showTextDisplay.Checked = textDisplay.Visible;
+            home.installedVoicesComboBox.SelectedItem = currentVoice;
+            lock (DisplayControlsLock)
+            {
+                home.showMediaControls.Checked = MediaControlsVisible;
+                home.showTextDisplay.Checked = TextDisplayVisible;
+            }
+
             home.volumeTrackbar.Value = synthesizer.Volume;
+            home.volumeLabel.Text = "Volume : " + synthesizer.Volume;
+
             home.rateTrackbar.Value = synthesizer.Rate;
+            home.rateLabel.Text = "Rate : " + synthesizer.Rate;
 
             if (home.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                synthesizer.SelectVoice(((VoiceInfo)home.installedVoicesComboBox.SelectedItem).Name);
-                synthesizer.Volume = home.volumeTrackbar.Value;
-                synthesizer.Rate = home.rateTrackbar.Value;
+                SpeechVoice = ((VoiceInfo)home.installedVoicesComboBox.SelectedItem).Name;
+                SpeechVolume = synthesizer.Volume = home.volumeTrackbar.Value;
+                SpeechRate = synthesizer.Rate = home.rateTrackbar.Value;
+
+                UpdateSynthesizer();
+
                 if (home.showTextDisplay.Checked)
                     ShowTextDisplay();
                 else
@@ -142,41 +163,64 @@ namespace SpeechManager
             HomeEnd(this, EventArgs.Empty);
         }
 
+        private object DisplayControlsLock = new object();
+        public bool TextDisplayVisible { get; private set; }
         public void ShowTextDisplay()
         {
-            if (!textDisplay.Visible)
-                textDisplay.Show();
+            lock (DisplayControlsLock)
+            {
+                if (!TextDisplayVisible)
+                {
+                    TextDisplayVisible = true;
+                    textDisplay.Show();
+                }
+            }
         }
 
         public void HideTextDisplay()
         {
-            if (textDisplay.Visible)
-                textDisplay.Hide();
+            lock(DisplayControlsLock)
+            {
+                if (TextDisplayVisible)
+                {
+                    TextDisplayVisible = false;
+                    textDisplay.Hide();
+                }
+            }
         }
 
+        public bool MediaControlsVisible { get; private set; }
         public void ShowMediaControls()
         {
-            if (!mediaControls.Visible)
+            lock (DisplayControlsLock)
             {
-                mediaControls.EnqueueButton.Click += EnqueueButton_Click;
-                mediaControls.PlayButton.Click += PlayButton_Click;
-                mediaControls.PauseButton.Click += PauseButton_Click;
-                mediaControls.StopButton.Click += StopButton_Click;
-                mediaControls.HomeButton.Click += HomeButton_Click;
-                mediaControls.Show();
+                if (!MediaControlsVisible)
+                {
+                    mediaControls.EnqueueButton.Click += EnqueueButton_Click;
+                    mediaControls.PlayButton.Click += PlayButton_Click;
+                    mediaControls.PauseButton.Click += PauseButton_Click;
+                    mediaControls.StopButton.Click += StopButton_Click;
+                    mediaControls.HomeButton.Click += HomeButton_Click;
+                    mediaControls.Show();
+                    MediaControlsVisible = true;
+                }
             }
         }
 
         public void HideMediaControls()
         {
-            if (mediaControls.Visible)
+            lock (DisplayControlsLock)
             {
-                mediaControls.EnqueueButton.Click -= EnqueueButton_Click;
-                mediaControls.PlayButton.Click -= PlayButton_Click;
-                mediaControls.PauseButton.Click -= PauseButton_Click;
-                mediaControls.StopButton.Click -= StopButton_Click;
-                mediaControls.HomeButton.Click -= HomeButton_Click;
-                mediaControls.Hide();
+                if (MediaControlsVisible)
+                {
+                    mediaControls.EnqueueButton.Click -= EnqueueButton_Click;
+                    mediaControls.PlayButton.Click -= PlayButton_Click;
+                    mediaControls.PauseButton.Click -= PauseButton_Click;
+                    mediaControls.StopButton.Click -= StopButton_Click;
+                    mediaControls.HomeButton.Click -= HomeButton_Click;
+                    mediaControls.Hide();
+                    MediaControlsVisible = false;
+                }
             }
         }
 
@@ -205,6 +249,13 @@ namespace SpeechManager
         }
 
         #region INTERNALS
+
+        private void UpdateSynthesizer()
+        {
+            synthesizer.SelectVoice(SpeechVoice);
+            synthesizer.Rate = SpeechRate;
+            synthesizer.Volume = SpeechVolume;
+        }
 
         #region HOME_DIALOG
         private Home home = new Home();

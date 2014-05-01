@@ -22,5 +22,77 @@ namespace Read_Aloud.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TextDisplay {
+            get {
+                return ((bool)(this["TextDisplay"]));
+            }
+            set {
+                this["TextDisplay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MediaControls {
+            get {
+                return ((bool)(this["MediaControls"]));
+            }
+            set {
+                this["MediaControls"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeyboardShortcuts {
+            get {
+                return ((bool)(this["KeyboardShortcuts"]));
+            }
+            set {
+                this["KeyboardShortcuts"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int SpeechVolume {
+            get {
+                return ((int)(this["SpeechVolume"]));
+            }
+            set {
+                this["SpeechVolume"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SpeechRate {
+            get {
+                return ((int)(this["SpeechRate"]));
+            }
+            set {
+                this["SpeechRate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SpeechVoice {
+            get {
+                return ((string)(this["SpeechVoice"]));
+            }
+            set {
+                this["SpeechVoice"] = value;
+            }
+        }
     }
 }

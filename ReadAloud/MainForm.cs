@@ -36,16 +36,12 @@ namespace Read_Aloud
         private MainForm()
         {
             InitializeComponent();
+            
             InitializeTrayIcon();
 
-            speechManager = new SpeechManager.SpeechManager(true, true);
-            speechManager.EnqueueButtonClick += speechManager_EnqueueButtonClick;
-            speechManager.HomeAboutClick += speechManager_HomeAboutClick;
-            speechManager.HomeQuitClick += speechManager_HomeQuitClick;
-            speechManager.HomeStart += speechManager_HomeStart;
-            speechManager.HomeEnd += speechManager_HomeEnd;
+            InitializeSpeechManager();
 
-            hookManager.KeyDown += hookManager_KeyDown;
+            InitializeKeyboard();
         }
         
         private HookManager.HookManager hookManager = new HookManager.HookManager();
@@ -68,6 +64,33 @@ namespace Read_Aloud
                 playpauseTSMenuItem, stopTSMenuItem, exitTSMenuItem });
             notifyIcon.ContextMenuStrip = ctxmenu;
             notifyIcon.DoubleClick += notifyIcon_DoubleClick;
+        }
+
+        private void InitializeSpeechManager()
+        {
+            bool mediaControls = Properties.Settings.Default.MediaControls;
+            bool textDisplay = Properties.Settings.Default.TextDisplay;
+            string speechVoice = Properties.Settings.Default.SpeechVoice;
+            int speechRate = Properties.Settings.Default.SpeechRate;
+            int speechVolume = Properties.Settings.Default.SpeechVolume;
+            speechManager = new SpeechManager.SpeechManager(speechVoice, speechRate,
+                speechVolume,mediaControls, textDisplay);
+            speechManager.EnqueueButtonClick += speechManager_EnqueueButtonClick;
+            speechManager.HomeAboutClick += speechManager_HomeAboutClick;
+            speechManager.HomeQuitClick += speechManager_HomeQuitClick;
+            speechManager.HomeStart += speechManager_HomeStart;
+            speechManager.HomeEnd += speechManager_HomeEnd;
+        }
+
+        private void InitializeKeyboard()
+        {
+            hookManager.KeyDown += hookManager_KeyDown;
+            lock (keysOnLock)
+            {
+                if (Properties.Settings.Default.KeyboardShortcuts)
+                    keysOn = true;
+                else keysOn = false;
+            }
         }
 
         private void notifyIcon_DoubleClick(object sender, EventArgs e)
@@ -185,10 +208,22 @@ namespace Read_Aloud
 
         private void Exit()
         {
+            Stop();
+            SaveProperties();
             notifyIcon.Visible = false;
             speechManager.Stop();
             speechManager.Dispose();
             Application.Exit();
+        }
+
+        private void SaveProperties()
+        {
+            Properties.Settings.Default["TextDisplay"] = speechManager.TextDisplayVisible;
+            Properties.Settings.Default["MediaControls"] = speechManager.MediaControlsVisible;
+            Properties.Settings.Default["SpeechVoice"] = speechManager.SpeechVoice;
+            Properties.Settings.Default["SpeechVolume"] = speechManager.SpeechVolume;
+            Properties.Settings.Default["SpeechRate"] = speechManager.SpeechRate;
+            Properties.Settings.Default.Save();
         }
         #endregion
 
