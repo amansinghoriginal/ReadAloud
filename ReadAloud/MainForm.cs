@@ -77,6 +77,8 @@ namespace Read_Aloud
 
         private void speechManager_HomeEnd(object sender, EventArgs e)
         {
+            lock (keysOnLock)
+                keysOn = true;
             homeTSMenuItem.Enabled = true;
  	        enqueueTSMenuItem.Enabled = true;
             playpauseTSMenuItem.Enabled = true;
@@ -89,6 +91,8 @@ namespace Read_Aloud
             enqueueTSMenuItem.Enabled = false;
             playpauseTSMenuItem.Enabled = false;
             stopTSMenuItem.Enabled = false;
+            lock (keysOnLock)
+                keysOn = false;
         }
 
         private void home_Click(object sender, EventArgs e)
@@ -134,22 +138,30 @@ namespace Read_Aloud
             Exit();
         }
 
+        private bool keysOn = true;
+        private object keysOnLock = new object();
         private void hookManager_KeyDown(object sender, HookManager.KeyArgs e)
         {
-            if (e.KeyData == Keys.Space && e.Ctrl)
+            bool keys = false;
+            lock (keysOnLock)
+                keys = keysOn;
+            if (keys)
             {
-                Enqueue();
-                e.Handled = true;
-            }
-            else if(e.KeyData == Keys.P && e.Ctrl && e.Alt)
-            {
-                PauseResume();
-                e.Handled = true;
-            }
-            else if(e.KeyData == Keys.X && e.Ctrl && e.Alt)
-            {
-                Stop();
-                e.Handled = true;
+                if (e.KeyData == Keys.Space && e.Ctrl)
+                {
+                    Enqueue();
+                    e.Handled = true;
+                }
+                else if (e.KeyData == Keys.P && e.Ctrl && e.Alt)
+                {
+                    PauseResume();
+                    e.Handled = true;
+                }
+                else if (e.KeyData == Keys.X && e.Ctrl && e.Alt)
+                {
+                    Stop();
+                    e.Handled = true;
+                }
             }
         }
 
