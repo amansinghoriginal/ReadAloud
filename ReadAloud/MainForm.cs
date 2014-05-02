@@ -48,7 +48,6 @@ namespace Read_Aloud
         private SpeechManager.SpeechManager speechManager;
         private ContextMenuStrip ctxmenu = new ContextMenuStrip();
         private ToolStripMenuItem homeTSMenuItem;
-        private ToolStripMenuItem enqueueTSMenuItem;
         private ToolStripMenuItem playpauseTSMenuItem;
         private ToolStripMenuItem stopTSMenuItem;
         private ToolStripMenuItem exitTSMenuItem;
@@ -56,11 +55,10 @@ namespace Read_Aloud
         private void InitializeTrayIcon()
         {
             homeTSMenuItem = new ToolStripMenuItem("&Home", null, home_Click);
-            enqueueTSMenuItem = new ToolStripMenuItem("&Enqueue", null, enqueue_Click);
             playpauseTSMenuItem = new ToolStripMenuItem("&Play/Pause", null, playpause_Click);
             stopTSMenuItem = new ToolStripMenuItem("&Stop", null, stop_Click);
             exitTSMenuItem = new ToolStripMenuItem("E&xit", null, exit_Click);
-            ctxmenu.Items.AddRange(new[] { homeTSMenuItem, enqueueTSMenuItem,
+            ctxmenu.Items.AddRange(new[] { homeTSMenuItem,
                 playpauseTSMenuItem, stopTSMenuItem, exitTSMenuItem });
             notifyIcon.ContextMenuStrip = ctxmenu;
             notifyIcon.DoubleClick += notifyIcon_DoubleClick;
@@ -103,15 +101,13 @@ namespace Read_Aloud
             lock (keysOnLock)
                 keysOn = true;
             homeTSMenuItem.Enabled = true;
- 	        enqueueTSMenuItem.Enabled = true;
-            playpauseTSMenuItem.Enabled = true;
+ 	        playpauseTSMenuItem.Enabled = true;
             stopTSMenuItem.Enabled = true;
         }
 
         private void speechManager_HomeStart(object sender, EventArgs e)
         {
             homeTSMenuItem.Enabled = false;
-            enqueueTSMenuItem.Enabled = false;
             playpauseTSMenuItem.Enabled = false;
             stopTSMenuItem.Enabled = false;
             lock (keysOnLock)
@@ -121,11 +117,6 @@ namespace Read_Aloud
         private void home_Click(object sender, EventArgs e)
         {
             speechManager.Home();
-        }
-
-        private void enqueue_Click(object sender, EventArgs e)
-        {
-            Enqueue();
         }
 
         private void stop_Click(object sender, EventArgs e)
