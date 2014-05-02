@@ -28,6 +28,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Speech.Synthesis;
 
 namespace SpeechManager
 {
@@ -41,6 +42,9 @@ namespace SpeechManager
         public event EventHandler<EventArgs> QuitClick = delegate { };
         public event EventHandler<EventArgs> AboutClick = delegate { };
 
+        public string TestSpeechString = "The quick brown fox jumps over the lazy dog.";
+
+        private SpeechSynthesizer testSynthesizer = new SpeechSynthesizer();
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutClick(sender, e);
@@ -69,6 +73,21 @@ namespace SpeechManager
         private void rateTrackbar_Scroll(object sender, EventArgs e)
         {
             rateLabel.Text = "Rate : " + rateTrackbar.Value;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            testSynthesizer.SpeakAsyncCancelAll();
+            testSynthesizer.SelectVoice(
+                ((VoiceInfo)installedVoicesComboBox.SelectedItem).Name);
+            testSynthesizer.Rate = rateTrackbar.Value;
+            testSynthesizer.Volume = volumeTrackbar.Value;
+            testSynthesizer.SpeakAsync(TestSpeechString);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            testSynthesizer.SpeakAsyncCancelAll();
         }
     }
 }
