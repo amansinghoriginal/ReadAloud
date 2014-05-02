@@ -156,9 +156,15 @@ namespace SpeechManager
                 else
                     HideTextDisplay();
                 if (home.showMediaControls.Checked)
+                {
+                    restoreMediaControls = true;
                     ShowMediaControls();
+                }
                 else
+                {
+                    restoreMediaControls = false;
                     HideMediaControls();
+                }
             }
             HomeEnd(this, EventArgs.Empty);
         }
@@ -268,8 +274,14 @@ namespace SpeechManager
             HomeEnd += SpeechManager_HomeEnd;
         }
 
+        private bool restoreMediaControls = false;
         private void SpeechManager_HomeEnd(object sender, EventArgs e)
         {
+            if (restoreMediaControls)
+            {
+                mediaControls.Visible = true;
+                restoreMediaControls = false;
+            }
             mediaControls.HomeButton.Enabled = true;
             mediaControls.EnqueueButton.Enabled = true;
             mediaControls.PlayButton.Enabled = true;
@@ -279,6 +291,15 @@ namespace SpeechManager
 
         private void SpeechManager_HomeStart(object sender, EventArgs e)
         {
+            if(mediaControls.Visible)
+            {
+                mediaControls.Visible = false;
+                restoreMediaControls = true;
+            }
+            else
+            {
+                restoreMediaControls = false;
+            }
             mediaControls.HomeButton.Enabled = false;
             mediaControls.EnqueueButton.Enabled = false;
             mediaControls.PlayButton.Enabled = false;
