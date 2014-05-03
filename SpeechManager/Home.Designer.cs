@@ -89,7 +89,6 @@ namespace SpeechManager
             this.LocationCenterRadio = new System.Windows.Forms.RadioButton();
             this.LocationBottomRadio = new System.Windows.Forms.RadioButton();
             this.LocationTopRadio = new System.Windows.Forms.RadioButton();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
@@ -177,7 +176,6 @@ namespace SpeechManager
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
@@ -568,16 +566,6 @@ namespace SpeechManager
             this.LocationTopRadio.Text = "Top";
             this.LocationTopRadio.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(570, 220);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Replacements";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.Controls.Add(this.cancelButton);
@@ -680,7 +668,6 @@ namespace SpeechManager
         public System.Windows.Forms.TrackBar volumeTrackbar;
         public System.Windows.Forms.Label volumeLabel;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button saveButton;
