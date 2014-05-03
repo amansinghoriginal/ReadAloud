@@ -26,16 +26,32 @@ namespace Read_Aloud
 {
     static class Program
     {
+        private static System.Threading.Mutex mutex =
+            new System.Threading.Mutex(false, "ReadAloudSingleInstance");
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            MainForm.Instance.Enqueue("");
-            Application.Run();
+            if(!mutex.WaitOne(TimeSpan.FromSeconds(1), false))
+            {
+                MessageBox.Show("Read Aloud is already running!",
+                    "Read Aloud", MessageBoxButtons.OK);
+                return;
+            }
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                MainForm.Instance.Enqueue("");
+                Application.Run();
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
         }
     }
 }
