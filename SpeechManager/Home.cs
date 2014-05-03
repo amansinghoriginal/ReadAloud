@@ -37,12 +37,17 @@ namespace SpeechManager
         public Home()
         {
             InitializeComponent();
+            updateTextDisplayControls();
         }
 
         public event EventHandler<EventArgs> QuitClick = delegate { };
         public event EventHandler<EventArgs> AboutClick = delegate { };
 
         public string TestSpeechString = "The quick brown fox jumps over the lazy dog.";
+
+        public Color ForegroundColor = Color.White;
+        public Color BackgroundColor = Color.Black;
+        public Font DisplayFont = new Font("Calibri", 12);
 
         private SpeechSynthesizer testSynthesizer = new SpeechSynthesizer();
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -88,6 +93,42 @@ namespace SpeechManager
         private void button2_Click(object sender, EventArgs e)
         {
             testSynthesizer.SpeakAsyncCancelAll();
+        }
+
+        private void updateTextDisplayControls()
+        {
+            ChangeFontButton.Enabled = showTextDisplay.Checked;
+            PickBackColorButton.Enabled = showTextDisplay.Checked;
+            PickForeColorButton.Enabled = showTextDisplay.Checked;
+            DisplayLocationGroupBox.Enabled = showTextDisplay.Checked;
+        }
+        private void showTextDisplay_CheckedChanged(object sender, EventArgs e)
+        {
+            updateTextDisplayControls();
+        }
+
+        private void PickForeColorButton_Click(object sender, EventArgs e)
+        {
+            ColorDialog cd = new ColorDialog();
+            cd.Color = ForeColor;
+            if (cd.ShowDialog() == DialogResult.OK)
+                ForegroundColor = cd.Color;
+        }
+
+        private void PickBackColorButton_Click(object sender, EventArgs e)
+        {
+            ColorDialog cd = new ColorDialog();
+            cd.Color = BackColor;
+            if (cd.ShowDialog() == DialogResult.OK)
+                BackgroundColor = cd.Color;
+        }
+
+        private void ChangeFontButton_Click(object sender, EventArgs e)
+        {
+            FontDialog fd = new FontDialog();
+            fd.Font = DisplayFont;
+            if(fd.ShowDialog() == DialogResult.OK)
+                this.DisplayFont = fd.Font;
         }
     }
 }

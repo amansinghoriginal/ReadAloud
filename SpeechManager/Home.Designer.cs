@@ -63,6 +63,9 @@ namespace SpeechManager
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.installedVoicesComboBox = new System.Windows.Forms.ComboBox();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.rateLabel = new System.Windows.Forms.Label();
@@ -72,16 +75,24 @@ namespace SpeechManager
             this.volumeTrackbar = new System.Windows.Forms.TrackBar();
             this.volumeLabel = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.showTextDisplay = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.showMediaControls = new System.Windows.Forms.CheckBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.showTextDisplay = new System.Windows.Forms.CheckBox();
+            this.ChangeFontButton = new System.Windows.Forms.Button();
+            this.PickForeColorButton = new System.Windows.Forms.Button();
+            this.PickBackColorButton = new System.Windows.Forms.Button();
+            this.DisplayLocationGroupBox = new System.Windows.Forms.GroupBox();
+            this.LocationCenterRadio = new System.Windows.Forms.RadioButton();
+            this.LocationBottomRadio = new System.Windows.Forms.RadioButton();
+            this.LocationTopRadio = new System.Windows.Forms.RadioButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -89,6 +100,7 @@ namespace SpeechManager
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rateTrackbar)).BeginInit();
@@ -96,9 +108,13 @@ namespace SpeechManager
             this.tableLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.volumeTrackbar)).BeginInit();
             this.tabPage2.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
+            this.DisplayLocationGroupBox.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -248,6 +264,43 @@ namespace SpeechManager
             this.installedVoicesComboBox.Size = new System.Drawing.Size(264, 21);
             this.installedVoicesComboBox.TabIndex = 2;
             // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 2;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.Controls.Add(this.button1, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.button2, 1, 0);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 77);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 1;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(264, 31);
+            this.tableLayoutPanel6.TabIndex = 3;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.Location = new System.Drawing.Point(3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(126, 25);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "&Preview Voice";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button2.Location = new System.Drawing.Point(135, 3);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(126, 25);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "S&top Preview";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel4);
@@ -350,7 +403,7 @@ namespace SpeechManager
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.flowLayoutPanel1);
+            this.tabPage2.Controls.Add(this.tableLayoutPanel7);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -359,16 +412,75 @@ namespace SpeechManager
             this.tabPage2.Text = "Display & Controls";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel1
+            // tableLayoutPanel7
             // 
-            this.flowLayoutPanel1.Controls.Add(this.showTextDisplay);
-            this.flowLayoutPanel1.Controls.Add(this.showMediaControls);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(564, 214);
-            this.flowLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel7.ColumnCount = 2;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Controls.Add(this.groupBox5, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.groupBox4, 0, 0);
+            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 1;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(564, 214);
+            this.tableLayoutPanel7.TabIndex = 5;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.flowLayoutPanel4);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox5.Location = new System.Drawing.Point(285, 3);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(276, 208);
+            this.groupBox5.TabIndex = 4;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Media Controls";
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.Controls.Add(this.showMediaControls);
+            this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 16);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(270, 189);
+            this.flowLayoutPanel4.TabIndex = 0;
+            // 
+            // showMediaControls
+            // 
+            this.showMediaControls.AutoSize = true;
+            this.showMediaControls.Location = new System.Drawing.Point(3, 3);
+            this.showMediaControls.Name = "showMediaControls";
+            this.showMediaControls.Size = new System.Drawing.Size(214, 17);
+            this.showMediaControls.TabIndex = 1;
+            this.showMediaControls.Text = "Show media controls in a docking menu";
+            this.showMediaControls.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.flowLayoutPanel3);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox4.Location = new System.Drawing.Point(3, 3);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(276, 208);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Text Display";
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.showTextDisplay);
+            this.flowLayoutPanel3.Controls.Add(this.ChangeFontButton);
+            this.flowLayoutPanel3.Controls.Add(this.PickForeColorButton);
+            this.flowLayoutPanel3.Controls.Add(this.PickBackColorButton);
+            this.flowLayoutPanel3.Controls.Add(this.DisplayLocationGroupBox);
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(270, 189);
+            this.flowLayoutPanel3.TabIndex = 0;
             // 
             // showTextDisplay
             // 
@@ -379,16 +491,82 @@ namespace SpeechManager
             this.showTextDisplay.TabIndex = 0;
             this.showTextDisplay.Text = "Show spoken text in a display";
             this.showTextDisplay.UseVisualStyleBackColor = true;
+            this.showTextDisplay.CheckedChanged += new System.EventHandler(this.showTextDisplay_CheckedChanged);
             // 
-            // showMediaControls
+            // ChangeFontButton
             // 
-            this.showMediaControls.AutoSize = true;
-            this.showMediaControls.Location = new System.Drawing.Point(3, 26);
-            this.showMediaControls.Name = "showMediaControls";
-            this.showMediaControls.Size = new System.Drawing.Size(214, 17);
-            this.showMediaControls.TabIndex = 1;
-            this.showMediaControls.Text = "Show media controls in a docking menu";
-            this.showMediaControls.UseVisualStyleBackColor = true;
+            this.ChangeFontButton.Location = new System.Drawing.Point(3, 26);
+            this.ChangeFontButton.Name = "ChangeFontButton";
+            this.ChangeFontButton.Size = new System.Drawing.Size(150, 23);
+            this.ChangeFontButton.TabIndex = 5;
+            this.ChangeFontButton.Text = "Change Display Font";
+            this.ChangeFontButton.UseVisualStyleBackColor = true;
+            this.ChangeFontButton.Click += new System.EventHandler(this.ChangeFontButton_Click);
+            // 
+            // PickForeColorButton
+            // 
+            this.PickForeColorButton.Location = new System.Drawing.Point(3, 55);
+            this.PickForeColorButton.Name = "PickForeColorButton";
+            this.PickForeColorButton.Size = new System.Drawing.Size(150, 23);
+            this.PickForeColorButton.TabIndex = 2;
+            this.PickForeColorButton.Text = "Pick Foreground Color";
+            this.PickForeColorButton.UseVisualStyleBackColor = true;
+            this.PickForeColorButton.Click += new System.EventHandler(this.PickForeColorButton_Click);
+            // 
+            // PickBackColorButton
+            // 
+            this.PickBackColorButton.Location = new System.Drawing.Point(3, 84);
+            this.PickBackColorButton.Name = "PickBackColorButton";
+            this.PickBackColorButton.Size = new System.Drawing.Size(150, 23);
+            this.PickBackColorButton.TabIndex = 3;
+            this.PickBackColorButton.Text = "Pick Background Color";
+            this.PickBackColorButton.UseVisualStyleBackColor = true;
+            this.PickBackColorButton.Click += new System.EventHandler(this.PickBackColorButton_Click);
+            // 
+            // DisplayLocationGroupBox
+            // 
+            this.DisplayLocationGroupBox.Controls.Add(this.LocationCenterRadio);
+            this.DisplayLocationGroupBox.Controls.Add(this.LocationBottomRadio);
+            this.DisplayLocationGroupBox.Controls.Add(this.LocationTopRadio);
+            this.DisplayLocationGroupBox.Location = new System.Drawing.Point(3, 113);
+            this.DisplayLocationGroupBox.Name = "DisplayLocationGroupBox";
+            this.DisplayLocationGroupBox.Size = new System.Drawing.Size(187, 40);
+            this.DisplayLocationGroupBox.TabIndex = 4;
+            this.DisplayLocationGroupBox.TabStop = false;
+            this.DisplayLocationGroupBox.Text = "Display Location";
+            // 
+            // LocationCenterRadio
+            // 
+            this.LocationCenterRadio.AutoSize = true;
+            this.LocationCenterRadio.Location = new System.Drawing.Point(120, 17);
+            this.LocationCenterRadio.Name = "LocationCenterRadio";
+            this.LocationCenterRadio.Size = new System.Drawing.Size(56, 17);
+            this.LocationCenterRadio.TabIndex = 3;
+            this.LocationCenterRadio.TabStop = true;
+            this.LocationCenterRadio.Text = "Center";
+            this.LocationCenterRadio.UseVisualStyleBackColor = true;
+            // 
+            // LocationBottomRadio
+            // 
+            this.LocationBottomRadio.AutoSize = true;
+            this.LocationBottomRadio.Location = new System.Drawing.Point(56, 17);
+            this.LocationBottomRadio.Name = "LocationBottomRadio";
+            this.LocationBottomRadio.Size = new System.Drawing.Size(58, 17);
+            this.LocationBottomRadio.TabIndex = 2;
+            this.LocationBottomRadio.TabStop = true;
+            this.LocationBottomRadio.Text = "Bottom";
+            this.LocationBottomRadio.UseVisualStyleBackColor = true;
+            // 
+            // LocationTopRadio
+            // 
+            this.LocationTopRadio.AutoSize = true;
+            this.LocationTopRadio.Location = new System.Drawing.Point(6, 19);
+            this.LocationTopRadio.Name = "LocationTopRadio";
+            this.LocationTopRadio.Size = new System.Drawing.Size(44, 17);
+            this.LocationTopRadio.TabIndex = 1;
+            this.LocationTopRadio.TabStop = true;
+            this.LocationTopRadio.Text = "Top";
+            this.LocationTopRadio.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -431,43 +609,6 @@ namespace SpeechManager
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // tableLayoutPanel6
-            // 
-            this.tableLayoutPanel6.ColumnCount = 2;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.Controls.Add(this.button1, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.button2, 1, 0);
-            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 77);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.RowCount = 1;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(264, 31);
-            this.tableLayoutPanel6.TabIndex = 3;
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(126, 25);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "&Preview Voice";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(135, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(126, 25);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "S&top Preview";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -490,6 +631,7 @@ namespace SpeechManager
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            this.tableLayoutPanel6.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
@@ -499,10 +641,16 @@ namespace SpeechManager
             this.tableLayoutPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.volumeTrackbar)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel7.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel4.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
+            this.DisplayLocationGroupBox.ResumeLayout(false);
+            this.DisplayLocationGroupBox.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -532,9 +680,6 @@ namespace SpeechManager
         public System.Windows.Forms.TrackBar volumeTrackbar;
         public System.Windows.Forms.Label volumeLabel;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        public System.Windows.Forms.CheckBox showTextDisplay;
-        public System.Windows.Forms.CheckBox showMediaControls;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Button cancelButton;
@@ -542,6 +687,20 @@ namespace SpeechManager
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        public System.Windows.Forms.CheckBox showMediaControls;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        public System.Windows.Forms.CheckBox showTextDisplay;
+        private System.Windows.Forms.Button PickForeColorButton;
+        private System.Windows.Forms.Button PickBackColorButton;
+        private System.Windows.Forms.GroupBox DisplayLocationGroupBox;
+        private System.Windows.Forms.Button ChangeFontButton;
+        public System.Windows.Forms.RadioButton LocationCenterRadio;
+        public System.Windows.Forms.RadioButton LocationBottomRadio;
+        public System.Windows.Forms.RadioButton LocationTopRadio;
 
     }
 }

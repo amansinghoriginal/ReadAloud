@@ -26,6 +26,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Speech.Synthesis;
 using System.Threading;
+using System.Drawing;
 
 namespace SpeechManager
 {
@@ -134,7 +135,25 @@ namespace SpeechManager
             lock (DisplayControlsLock)
             {
                 home.showMediaControls.Checked = MediaControlsVisible;
+
                 home.showTextDisplay.Checked = TextDisplayVisible;
+                home.DisplayFont = textDisplay.DisplayFont;
+                home.ForegroundColor = textDisplay.ForegroundColor;
+                home.BackgroundColor = textDisplay.BackgroundColor;
+                switch (textDisplay.TextLocation)
+                {
+                    case TextDisplay.DisplayLocation.Top:
+                        home.LocationTopRadio.Checked = true;
+                        break;
+                    case TextDisplay.DisplayLocation.Bottom:
+                        home.LocationBottomRadio.Checked = true;
+                        break;
+                    case TextDisplay.DisplayLocation.Center:
+                        home.LocationBottomRadio.Checked = true;
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
             }
 
             home.volumeTrackbar.Value = synthesizer.Volume;
@@ -150,6 +169,30 @@ namespace SpeechManager
                 SpeechRate = synthesizer.Rate = home.rateTrackbar.Value;
 
                 UpdateSynthesizer();
+
+                lock(DisplayControlsLock)
+                {
+
+                    textDisplay.DisplayFont = home.DisplayFont;
+                    textDisplay.ForegroundColor = home.ForegroundColor;
+                    textDisplay.BackgroundColor = home.BackgroundColor;
+                    if (home.LocationTopRadio.Checked)
+                    {
+                        textDisplay.TextLocation = TextDisplay.DisplayLocation.Top;
+                    }
+                    else if (home.LocationBottomRadio.Checked)
+                    {
+                        textDisplay.TextLocation = TextDisplay.DisplayLocation.Bottom;
+                    }
+                    else if(home.LocationCenterRadio.Checked)
+                    {
+                        textDisplay.TextLocation = TextDisplay.DisplayLocation.Center;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException();
+                    }
+                }
 
                 if (home.showTextDisplay.Checked)
                     ShowTextDisplay();
@@ -170,6 +213,7 @@ namespace SpeechManager
         }
 
         private object DisplayControlsLock = new object();
+
         public bool TextDisplayVisible { get; private set; }
         public void ShowTextDisplay()
         {
@@ -192,6 +236,23 @@ namespace SpeechManager
                     TextDisplayVisible = false;
                     textDisplay.Hide();
                 }
+            }
+        }
+
+        public void ConfigureTextDisplay(string location,
+            Font font, Color backColor, Color foreColor)
+        {
+            lock (DisplayControlsLock)
+            {
+                TextDisplay.DisplayLocation dl = TextDisplay.DisplayLocation.Top;
+                if (Enum.TryParse<TextDisplay.DisplayLocation>(location, true, out dl))
+                    textDisplay.TextLocation = dl;
+                if (font != null)
+                    textDisplay.DisplayFont = font;
+                if (backColor != null)
+                    textDisplay.BackgroundColor = backColor;
+                if (foreColor != null)
+                    textDisplay.ForegroundColor = foreColor;
             }
         }
 

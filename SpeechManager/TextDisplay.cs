@@ -33,6 +33,13 @@ namespace SpeechManager
 {
     partial class TextDisplay : Form
     {
+        public enum DisplayLocation
+        {
+            Top,
+            Bottom,
+            Center
+        };
+
         public TextDisplay()
         {
             InitializeComponent();
@@ -87,6 +94,51 @@ namespace SpeechManager
             }
         }
 
+        public Font DisplayFont
+        {
+            get {
+                return this.textBox.Font;
+            }
+            set {
+                this.textBox.Font = value;
+            }
+        }
+
+        public Color BackgroundColor
+        {
+            get {
+                return this.textBox.BackColor;
+            }
+            set {
+                this.textBox.BackColor = value;
+            }
+        }
+
+        public Color ForegroundColor
+        {
+            get {
+                return this.textBox.ForeColor;
+            }
+            set {
+                this.textBox.ForeColor = value;
+            }
+        }
+
+        private DisplayLocation textLocation = DisplayLocation.Top;
+        public DisplayLocation TextLocation
+        {
+            get {
+                return this.textLocation;
+            }
+            set {
+                if(this.textLocation != value)
+                {
+                    this.textLocation = value;
+                    UpdateDisplayLocation();
+                }
+            }
+        }
+
         #region INTERNALS
         protected override CreateParams CreateParams
         {
@@ -101,9 +153,56 @@ namespace SpeechManager
 
         private void TextDisplay_Load(object sender, EventArgs e)
         {
+            UpdateDisplayLocation();
+        }
+
+        private void UpdateDisplayLocation()
+        {
+            switch (this.TextLocation)
+            {
+                case DisplayLocation.Top:
+                    SetToTop();
+                    break;
+                case DisplayLocation.Bottom:
+                    SetToBottom();
+                    break;
+                case DisplayLocation.Center:
+                    SetToCenter();
+                    break;
+                default:
+                    throw new InvalidEnumArgumentException();
+            }
+        }
+
+        private void SetToTop()
+        {
             int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
+            int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+            this.Height = (int) (screenHeight * 0.3);
+            this.Width = (int) (screenWidth * 0.8);
             int delta = screenWidth - this.Width;
             this.Location = new Point(delta / 2, 0);
+        }
+
+        private void SetToBottom()
+        {
+            int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
+            int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+            this.Height = (int)(screenHeight * 0.3);
+            this.Width = (int)(screenWidth * 0.8);
+            int delta = screenWidth - this.Width;
+            this.Location = new Point(delta / 2, screenHeight - this.Height);
+        }
+
+        private void SetToCenter()
+        {
+            int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
+            int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+            this.Height = (int)(screenHeight * 0.7);
+            this.Width = (int)(screenWidth * 0.8);
+            int deltaX = screenWidth - this.Width;
+            int deltaY = screenHeight - this.Height;
+            this.Location = new Point(deltaX/2, deltaY/2);
         }
 
         delegate void SetTextCallback(string text);
